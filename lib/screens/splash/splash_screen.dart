@@ -3,7 +3,7 @@ import '../../config/constants.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/provider_locator.dart';
 import '../../widgets/loading_indicator.dart';
-import '../home/home_screen.dart';
+import '../main/main_screen.dart';
 import '../auth/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => authProvider.isAuthenticated
-              ? const HomeScreen()
+              ? const MainScreen()
               : const LoginScreen(),
         ),
       );

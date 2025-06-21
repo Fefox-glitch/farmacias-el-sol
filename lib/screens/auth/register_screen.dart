@@ -3,7 +3,7 @@ import '../../config/constants.dart';
 import '../../providers/provider_locator.dart';
 import '../../widgets/loading_indicator.dart';
 import '../../utils/helpers.dart';
-import '../home/home_screen.dart';
+import '../main/main_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -43,8 +43,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const MainScreen()),
+          (route) => false,
         );
       }
     } catch (e) {

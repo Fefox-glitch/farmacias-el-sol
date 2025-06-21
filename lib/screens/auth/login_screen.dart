@@ -3,7 +3,7 @@ import '../../config/constants.dart';
 import '../../providers/provider_locator.dart';
 import '../../widgets/loading_indicator.dart';
 import '../../utils/helpers.dart';
-import '../home/home_screen.dart';
+import '../main/main_screen.dart';
 import 'register_screen.dart';
 import 'reset_password_screen.dart';
 
@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          MaterialPageRoute(builder: (context) => const MainScreen()),
         );
       }
     } catch (e) {
