@@ -67,8 +67,10 @@ Farmacias El Sol es una aplicación móvil diseñada para facilitar la gestión 
   - Firebase Cloud Messaging
   - Google ML Kit (OCR)
 
-## 📁 Estructura del Proyecto
 
+# Estructura del Proyecto: farmacias-el-sol
+
+```
 farmacias-el-sol/
 ├── lib/
 │   ├── pantallas/
@@ -90,6 +92,7 @@ farmacias-el-sol/
 │   └── iconos/
 ├── prueba/
 └── documentos/
+```
 
 
 ## 🚀 Instrucciones de Instalación
