@@ -4,38 +4,42 @@ import '../../providers/provider_locator.dart';
 import '../../widgets/loading_indicator.dart';
 import '../../utils/helpers.dart';
 import '../home/home_screen.dart';
-import 'register_screen.dart';
-import 'reset_password_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _nombreController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
+    _nombreController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  Future<void> _handleLogin() async {
+  Future<void> _handleRegister() async {
     if (!_formKey.currentState!.validate()) return;
 
     final authProvider = ProviderLocator.getAuth(context);
 
     try {
-      await authProvider.signIn(
+      await authProvider.signUp(
         _emailController.text.trim(),
         _passwordController.text,
+        _nombreController.text.trim(),
       );
 
       if (mounted) {
@@ -50,23 +54,14 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _navigateToRegister() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const RegisterScreen()),
-    );
-  }
-
-  void _navigateToResetPassword() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const ResetPasswordScreen()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final authProvider = ProviderLocator.watchAuth(context);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Registro'),
+      ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -80,15 +75,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   // Logo
                   Image.asset(
                     AppConstants.logoPath,
-                    width: 120,
-                    height: 120,
+                    width: 100,
+                    height: 100,
                   ),
 
                   const SizedBox(height: 32),
 
                   // Título
                   Text(
-                    'Iniciar Sesión',
+                    'Crear Cuenta',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -96,6 +91,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
 
                   const SizedBox(height: 32),
+
+                  // Campo de nombre
+                  TextFormField(
+                    controller: _nombreController,
+                    textCapitalization: TextCapitalization.words,
+                    decoration: const InputDecoration(
+                      labelText: 'Nombre completo',
+                      hintText: 'Juan Pérez',
+                      prefixIcon: Icon(Icons.person_outline),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, ingresa tu nombre';
+                      }
+                      if (value.length > AppConstants.maxNameLength) {
+                        return 'El nombre es demasiado largo';
+                      }
+                      return null;
+                    },
+                  ),
+
+                  const SizedBox(height: 16),
 
                   // Campo de email
                   TextFormField(
@@ -112,6 +129,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       }
                       if (!AppHelpers.isValidEmail(value)) {
                         return 'Por favor, ingresa un correo electrónico válido';
+                      }
+                      if (value.length > AppConstants.maxEmailLength) {
+                        return 'El correo electrónico es demasiado largo';
                       }
                       return null;
                     },
@@ -141,31 +161,56 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Por favor, ingresa tu contraseña';
+                        return 'Por favor, ingresa una contraseña';
                       }
                       if (value.length < AppConstants.minPasswordLength) {
                         return 'La contraseña debe tener al menos ${AppConstants.minPasswordLength} caracteres';
+                      }
+                      if (value.length > AppConstants.maxPasswordLength) {
+                        return 'La contraseña es demasiado larga';
                       }
                       return null;
                     },
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 16),
 
-                  // Botón de olvidé mi contraseña
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: _navigateToResetPassword,
-                      child: const Text('¿Olvidaste tu contraseña?'),
+                  // Campo de confirmar contraseña
+                  TextFormField(
+                    controller: _confirmPasswordController,
+                    obscureText: _obscureConfirmPassword,
+                    decoration: InputDecoration(
+                      labelText: 'Confirmar contraseña',
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword = !_obscureConfirmPassword;
+                          });
+                        },
+                      ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor, confirma tu contraseña';
+                      }
+                      if (value != _passwordController.text) {
+                        return 'Las contraseñas no coinciden';
+                      }
+                      return null;
+                    },
                   ),
 
-                  const SizedBox(height: 24),
+                  const SizedBox(height: 32),
 
-                  // Botón de inicio de sesión
+                  // Botón de registro
                   ElevatedButton(
-                    onPressed: authProvider.isLoading ? null : _handleLogin,
+                    onPressed: authProvider.isLoading ? null : _handleRegister,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
@@ -174,19 +219,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.white,
                             size: 24,
                           )
-                        : const Text('Iniciar Sesión'),
+                        : const Text('Registrarse'),
                   ),
 
                   const SizedBox(height: 24),
 
-                  // Botón de registro
+                  // Botón de inicio de sesión
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('¿No tienes una cuenta?'),
+                      const Text('¿Ya tienes una cuenta?'),
                       TextButton(
-                        onPressed: _navigateToRegister,
-                        child: const Text('Regístrate'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Inicia sesión'),
                       ),
                     ],
                   ),
