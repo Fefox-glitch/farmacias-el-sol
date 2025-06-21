@@ -69,29 +69,28 @@ Farmacias El Sol es una aplicación móvil diseñada para facilitar la gestión 
 
 ## 📁 Estructura del Proyecto
 
-\`\`\`
 farmacias-el-sol/
 ├── lib/
-│   ├── screens/
-│   │   ├── home/
-│   │   ├── search/
-│   │   ├── map/
-│   │   ├── profile/
-│   │   └── settings/
-│   ├── components/
-│   │   ├── common/
+│   ├── pantallas/
+│   │   ├── inicio/
+│   │   ├── buscar/
+│   │   ├── mapa/
+│   │   ├── perfil/
+│   │   └── ajustes/
+│   ├── componentes/
+│   │   ├── común/
 │   │   └── widgets/
-│   ├── services/
+│   ├── servicios/
 │   │   ├── api/
 │   │   ├── auth/
-│   │   └── storage/
-│   └── utils/
-├── assets/
-│   ├── images/
-│   └── icons/
-├── test/
-└── docs/
-\`\`\`
+│   │   └── almacenamiento/
+│   └── utilidades/
+├── recursos/
+│   ├── imágenes/
+│   └── iconos/
+├── prueba/
+└── documentos/
+
 
 ## 🚀 Instrucciones de Instalación
 
