@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'screens/home/home_screen.dart';
 import 'config/theme.dart';
+import 'services/service_locator.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  // Configurar orientación de la app
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  // Inicializar Firebase
+  await Firebase.initializeApp();
+
+  // Configurar inyección de dependencias
+  await setupServiceLocator();
+
   runApp(const FarmaciasElSolApp());
 }
 
