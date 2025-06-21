@@ -2,19 +2,24 @@ import 'package:flutter/foundation.dart';
 import '../models/medicine.dart';
 import '../services/service_locator.dart';
 import 'base_provider.dart';
+import '../services/database_service.dart';
 
 class MedicineProvider extends BaseProvider {
+  final DatabaseService _dbService = DatabaseService();
+
   List<Medicine> _searchResults = [];
   List<String> _recentSearches = [];
   Medicine? _selectedMedicine;
   List<String> _categories = [];
   List<String> _activeIngredients = [];
+  List<Medicine> _medicines = [];
 
   List<Medicine> get searchResults => _searchResults;
   List<String> get recentSearches => _recentSearches;
   Medicine? get selectedMedicine => _selectedMedicine;
   List<String> get categories => _categories;
   List<String> get activeIngredients => _activeIngredients;
+  List<Medicine> get medicines => _medicines;
 
   MedicineProvider() {
     _initialize();
@@ -24,6 +29,7 @@ class MedicineProvider extends BaseProvider {
     _recentSearches = storageService.getRecentSearches();
     await _loadCategories();
     await _loadActiveIngredients();
+    await loadMedicines();
   }
 
   Future<void> _loadCategories() async {
@@ -41,6 +47,48 @@ class MedicineProvider extends BaseProvider {
       notifyListeners();
     } catch (e) {
       debugPrint('Error cargando principios activos: $e');
+    }
+  }
+
+  Future<void> loadMedicines() async {
+    try {
+      _medicines = await _dbService.getMedicines();
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error cargando medicamentos desde DB: $e');
+    }
+  }
+
+  Future<void> addMedicine(Medicine medicine) async {
+    try {
+      await _dbService.insertMedicine(medicine);
+      _medicines.add(medicine);
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error agregando medicamento: $e');
+    }
+  }
+
+  Future<void> updateMedicine(Medicine medicine) async {
+    try {
+      await _dbService.updateMedicine(medicine);
+      final index = _medicines.indexWhere((m) => m.id == medicine.id);
+      if (index != -1) {
+        _medicines[index] = medicine;
+        notifyListeners();
+      }
+    } catch (e) {
+      debugPrint('Error actualizando medicamento: $e');
+    }
+  }
+
+  Future<void> deleteMedicine(String id) async {
+    try {
+      await _dbService.deleteMedicine(id);
+      _medicines.removeWhere((m) => m.id == id);
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error eliminando medicamento: $e');
     }
   }
 
