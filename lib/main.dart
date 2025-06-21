@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'screens/home/home_screen.dart';
 import 'config/theme.dart';
 import 'services/service_locator.dart';
+import 'providers/provider_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,20 +29,22 @@ class FarmaciasElSolApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Farmacias El Sol',
-      theme: AppTheme.lightTheme,
-      debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
-      builder: (context, child) {
-        return GestureDetector(
-          onTap: () {
-            // Cerrar el teclado al tocar fuera de un campo de texto
-            FocusScope.of(context).requestFocus(FocusNode());
-          },
-          child: child!,
-        );
-      },
+    return ProviderLocator.wrapWithProviders(
+      MaterialApp(
+        title: 'Farmacias El Sol',
+        theme: AppTheme.lightTheme,
+        debugShowCheckedModeBanner: false,
+        home: const HomeScreen(),
+        builder: (context, child) {
+          return GestureDetector(
+            onTap: () {
+              // Cerrar el teclado al tocar fuera de un campo de texto
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: child!,
+          );
+        },
+      ),
     );
   }
 }
