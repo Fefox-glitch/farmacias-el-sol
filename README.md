@@ -67,55 +67,57 @@ Farmacias El Sol es una aplicación móvil diseñada para facilitar la gestión 
   - Firebase Cloud Messaging
   - Google ML Kit (OCR)
 
-## 📁 Estructura del Proyecto
 
-\`\`\`
+# Estructura del Proyecto: farmacias-el-sol
+
+```
 farmacias-el-sol/
 ├── lib/
-│   ├── screens/
-│   │   ├── home/
-│   │   ├── search/
-│   │   ├── map/
-│   │   ├── profile/
-│   │   └── settings/
-│   ├── components/
-│   │   ├── common/
+│   ├── pantallas/
+│   │   ├── inicio/
+│   │   ├── buscar/
+│   │   ├── mapa/
+│   │   ├── perfil/
+│   │   └── ajustes/
+│   ├── componentes/
+│   │   ├── común/
 │   │   └── widgets/
-│   ├── services/
+│   ├── servicios/
 │   │   ├── api/
 │   │   ├── auth/
-│   │   └── storage/
-│   └── utils/
-├── assets/
-│   ├── images/
-│   └── icons/
-├── test/
-└── docs/
-\`\`\`
+│   │   └── almacenamiento/
+│   └── utilidades/
+├── recursos/
+│   ├── imágenes/
+│   └── iconos/
+├── prueba/
+└── documentos/
+```
+
 
 ## 🚀 Instrucciones de Instalación
 
 1. **Clonar el repositorio**
-   \`\`\`bash
+   ```bash
    git clone https://github.com/username/farmacias-el-sol.git
    cd farmacias-el-sol
-   \`\`\`
+   ```
 
 2. **Instalar dependencias**
-   \`\`\`bash
+   ```bash
    flutter pub get
-   \`\`\`
+   ```
 
 3. **Configurar variables de entorno**
-   \`\`\`bash
+   ```bash
    cp .env.example .env
    # Editar .env con tus credenciales
-   \`\`\`
+   ```
 
 4. **Ejecutar la aplicación**
-   \`\`\`bash
+   ```bash
    flutter run
-   \`\`\`
+   ```
 
 ## 🗺️ Roadmap
 
@@ -144,8 +146,3 @@ Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.m
 - GitHub: [@fernandotroncoso](https://github.com/fernandotroncoso)
 - LinkedIn: [Fernando Troncoso](https://linkedin.com/in/fernandotroncoso)
 
----
-
-<p align="center">
-  Desarrollado con ❤️ por el equipo de Farmacias El Sol
-</p>
