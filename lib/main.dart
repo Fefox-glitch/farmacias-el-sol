@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'screens/home/home_screen.dart';
+import 'screens/splash/splash_screen.dart';
 import 'config/theme.dart';
 import 'services/service_locator.dart';
 import 'providers/provider_locator.dart';
@@ -34,7 +34,7 @@ class FarmaciasElSolApp extends StatelessWidget {
         title: 'Farmacias El Sol',
         theme: AppTheme.lightTheme,
         debugShowCheckedModeBanner: false,
-        home: const HomeScreen(),
+        home: const SplashScreen(),
         builder: (context, child) {
           return GestureDetector(
             onTap: () {
